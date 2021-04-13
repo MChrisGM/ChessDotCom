@@ -7,6 +7,7 @@ let app = express();
 
 const uri = `mongodb+srv://${process.env.DBUSER}:${process.env.DBPASS}@cluster0.fhp5t.mongodb.net/${process.env.DBNAME}?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+client.connect();
 
 const oauth = new DiscordOauth2({
   clientId: process.env.CLIENT_ID,
@@ -36,16 +37,18 @@ function listen() {
 io.sockets.on('connection',
   function(socket) {
 
+    // console.log(socket.id);
+
     players[socket.id] = {
       id: socket.id,
       // socket: socket,
-      username: "",
+      username: "Guest",
       rating: {
         bullet: 0,
         blitz: 0,
         rapid: 0,
       },
-      country: "",
+      country: "Neverland",
       logged: false,
       discord: {
         id: "",
@@ -54,6 +57,20 @@ io.sockets.on('connection',
         avatar: ""
       },
     };
+
+    socket.on('user_id',function(id){
+      if(players[id]){
+        players[socket.id]=players[id];
+        socket.emit('discord_validation', {
+          USER_NAME: players[id].discord.username,
+          USER_DISC: players[id].discord.disc,
+          USER_ID: players[id].discord.id,
+          USER_AVATAR: players[id].discord.avatar,
+        });
+      }else{
+        socket.emit('invalid_id');
+      }
+    });
 
     socket.on('validate_discord_code', async function(code) {
       let user = await validateDiscord(code);

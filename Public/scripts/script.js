@@ -3,6 +3,11 @@ const discordRedirect = "https://discord.com/api/oauth2/authorize?client_id=8313
 
 window.onload = function(){
   socket = io.connect(window.location.href);
+  if(document.cookie){
+    socket.emit('user_id',document.cookie);
+  }else{
+    document.cookie = socket.id;
+  }
   let code = parseURLParams(window.location.href) || null;
   if(code){
     code = parseURLParams(window.location.href)['code'];
@@ -17,6 +22,10 @@ window.onload = function(){
     document.querySelector('#profile-name').textContent = "Logged in as "+user.USER_NAME +"#"+ user.USER_DISC;
     document.querySelector('#profile-name').style.display = 'block';
     document.querySelector('#login-button').style.display = 'none';
+  });
+  socket.on('invalid_id',function(){
+    console.log("Invalid ID");
+    document.cookie = socket.id;
   });
   
 }
