@@ -14,9 +14,9 @@ window.onload = function(){
     socket.emit('validate_discord_code',code);
   }
   socket.on('discord_validation',function(user){
-    console.log("Logged in to Discord as "+user.USER_NAME);
-    //--------------------------------------------------------
-    
+    document.querySelector('#profile-name').textContent = "Logged in as "+user.USER_NAME +"#"+ user.USER_DISC;
+    document.querySelector('#profile-name').style.display = 'block';
+    document.querySelector('#login-button').style.display = 'none';
   });
   
 }

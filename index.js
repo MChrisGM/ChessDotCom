@@ -7,13 +7,6 @@ let app = express();
 
 const uri = `mongodb+srv://${process.env.DBUSER}:${process.env.DBPASS}@cluster0.fhp5t.mongodb.net/${process.env.DBNAME}?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-client.connect(err => {
-  // const collection = client.db("test").collection("Users");
-  // // perform actions on the collection object
-  // client.close();
-});
-
-
 
 const oauth = new DiscordOauth2({
   clientId: process.env.CLIENT_ID,
@@ -102,13 +95,7 @@ io.sockets.on('connection',
               }
             });
         }
-
-
-
       }
-
-
-
     });
 
     socket.on('game_created', function() {

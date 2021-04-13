@@ -52,15 +52,15 @@
 		}
 
 		.nav>div {
-      display: flex;
-      padding: 14px 0;
-    }
+			display: flex;
+			padding: 14px 0;
+		}
 
 		.nav a {
 			color: #aaa;
 			flex: 1;
 			padding: 4px;
-      margin: 0;
+			margin: 0;
 			text-decoration: none;
 		}
 
@@ -108,10 +108,11 @@
 				Play
 			</a>
 		</div>
-		<div class="right">
-			<a class="nav-item" href="#" onclick="discordLogin()">
+		<div id="profileLogin" class="right">
+			<a id="login-button" class="nav-item" href="#" onclick="discordLogin()">
 				Log In with Discord
 			</a>
+			<a id="profile-name" class="nav-item" href="#" style="display: none"></a>
 		</div>
 
 	</nav>
