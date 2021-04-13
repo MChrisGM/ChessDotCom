@@ -1,5 +1,9 @@
+@font-face {
+  font-family: montserrat;
+  src: url(montserrat.woff2);
+}
 * {
-			font-family: 'Roboto', sans-serif;
+			font-family: 'montserrat';
 		}
 
 		body {

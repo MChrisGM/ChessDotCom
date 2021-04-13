@@ -11,12 +11,17 @@
 	 crossorigin="anonymous">
 
 	</script>
+  <script
+  src="https://code.jquery.com/jquery-3.6.0.js"
+  integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+  crossorigin="anonymous"></script>
 
 	<link rel="stylesheet" href="styles/style.css">
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
 
 	<script src="scripts/script.js"></script>
+  <script src="scripts/piece.js"></script>
   <script src="scripts/game.js"></script>
 
 </head>
@@ -47,8 +52,11 @@
 
 	</nav>
 
-  <div id = "gameDiv" class="center unselectable">
-    <div id = "board">
+  <div id="gameDiv" class="unselectable center">
+    <div id="board">
+      <div id="resize-handle">
+        <div class="handle"></div>
+      </div>
       <img src="/play/assets/150.png">
     </div>
   </div>
