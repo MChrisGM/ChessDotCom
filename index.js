@@ -18,6 +18,7 @@ const oauth = new DiscordOauth2({
 let server = app.listen(process.env.PORT || 3000, listen);
 
 app.use(express.static('Public'));
+app.use('/play',express.static('Play'));
 
 let io = require('socket.io')(server);
 
@@ -36,8 +37,6 @@ function listen() {
 
 io.sockets.on('connection',
   function(socket) {
-
-    // console.log(socket.id);
 
     players[socket.id] = {
       id: socket.id,
@@ -61,6 +60,7 @@ io.sockets.on('connection',
     socket.on('user_id',function(id){
       if(players[id]){
         players[socket.id]=players[id];
+        players[socket.id].logged = true;
         socket.emit('discord_validation', {
           USER_NAME: players[id].discord.username,
           USER_DISC: players[id].discord.disc,
@@ -122,7 +122,7 @@ io.sockets.on('connection',
     socket.emit('game_listing', Object.values(lobbies));
 
     socket.on('disconnect', function() {
-      // console.log("Socket "+socket.id+" disconnected");
+      players[socket.id].logged = false;
     });
 
   }

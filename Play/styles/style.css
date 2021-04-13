@@ -1,0 +1,102 @@
+* {
+			font-family: 'Roboto', sans-serif;
+		}
+
+		body {
+      background-color: rgb(53,53,53);
+  color: rgb(255,255,255);
+			margin: 0;
+		}
+
+		.dev-red {
+			background-color: red;
+		}
+
+		.dev-blue {
+			background-color: blue;
+		}
+
+		.nav {
+			align-items: center;
+			background-color: #222;
+			display: flex;
+			padding: 0 40px;
+		}
+
+		.nav * {
+			font-size: 20px;
+		}
+
+		.nav>div {
+			display: flex;
+			padding: 14px 0;
+		}
+
+		.nav a {
+			color: #aaa;
+			flex: 1;
+			padding: 4px;
+			margin: 0;
+			text-decoration: none;
+		}
+
+		.nav a:hover {
+			background-color: #1b1b1b;
+			color: #ddd;
+			padding: 4px;
+		}
+
+		.nav-title {
+			font-weight: bold;
+		}
+
+		.flex {
+			display: flex;
+		}
+
+		.flex-grow {
+			display: flex;
+			flex-grow: 1;
+		}
+
+		.right {
+			align-items: flex-end;
+			display: flex;
+			flex: 1;
+			flex-direction: column;
+			flex-grow: 1;
+		}
+
+    .center {
+  margin: auto;
+  width: 50%;
+  text-align: center;
+
+}
+  
+.unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+    #gameDiv{
+
+    }
+
+    #board{
+      display:block;
+      position: relative;
+      width:600px;
+height:600px;
+resize:both;
+overflow:hidden;
+    }
+
+    #board img{
+      width:100%;
+height:100%;
+    }
