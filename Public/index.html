@@ -1,0 +1,121 @@
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>ChessDotCom Lobbies</title>
+
+	<meta name="viewport" content="user-scalable = no">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js" integrity="sha512-aMGMvNYu8Ue4G+fHa359jcPb1u+ytAF+P2SCb+PxrjCdO3n3ZTxJ30zuH39rimUggmTwmh2u7wvQsDTHESnmfQ=="
+	 crossorigin="anonymous">
+
+	</script>
+
+	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
+	<link rel="stylesheet" href="styles/style.css">
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+
+	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
+	<script src="scripts/script.js">
+
+	</script>
+
+	<style>
+		* {
+			font-family: 'Roboto', sans-serif;
+		}
+
+		body {
+			margin: 0;
+		}
+
+		.dev-red {
+			background-color: red;
+		}
+
+		.dev-blue {
+			background-color: blue;
+		}
+
+		.nav {
+			align-items: center;
+			background-color: #222;
+			display: flex;
+			padding: 0 40px;
+		}
+
+		.nav * {
+			font-size: 20px;
+		}
+
+		.nav>div {
+      display: flex;
+      padding: 14px 0;
+    }
+
+		.nav a {
+			color: #aaa;
+			flex: 1;
+			padding: 4px;
+      margin: 0;
+			text-decoration: none;
+		}
+
+		.nav a:hover {
+			background-color: #1b1b1b;
+			color: #ddd;
+			padding: 4px;
+		}
+
+		.nav-title {
+			font-weight: bold;
+		}
+
+		.flex {
+			display: flex;
+		}
+
+		.flex-grow {
+			display: flex;
+			flex-grow: 1;
+		}
+
+		.right {
+			align-items: flex-end;
+			display: flex;
+			flex: 1;
+			flex-direction: column;
+			flex-grow: 1;
+		}
+	</style>
+
+</head>
+
+<body>
+
+	<nav class="nav">
+		<div>
+			<a class="nav-title" href="">
+				ChessDotCom
+			</a>
+			<a class="nav-item" href="">
+				Home
+			</a>
+			<a class="nav-item" href="">
+				Play
+			</a>
+		</div>
+		<div class="right">
+			<a class="nav-item" href="#" onclick="discordLogin()">
+				Log In with Discord
+			</a>
+		</div>
+
+	</nav>
+
+</body>
+
+</html>
