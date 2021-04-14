@@ -62,33 +62,84 @@ class Piece {
           if (this.pos.y + (m.y * step) < 8 && this.pos.x + (m.x * step) < 8 &&
             this.pos.y + (m.y * step) >= 0 && this.pos.x + (m.x * step) >= 0) {
             if ((m.y * step) == 0 && (m.x * step) == 0) {
-              possible.push({ 
-                x: this.pos.x + (m.x * step), 
+              possible.push({
+                x: this.pos.x + (m.x * step),
                 y: this.pos.y + (m.y * step),
-                self:true,
-                hit:false });
-                continue;
+                self: true,
+                hit: false
+              });
+              continue;
             }
             if (board[this.pos.y + (m.y * step)][this.pos.x + (m.x * step)].team == this.team) {
               break;
             }
-            
+
             if (board[this.pos.y + (m.y * step)][this.pos.x + (m.x * step)] == 0) {
-              possible.push({ 
-                x: this.pos.x + (m.x * step), 
+              possible.push({
+                x: this.pos.x + (m.x * step),
                 y: this.pos.y + (m.y * step),
-                self:false,
-                hit:false });
-                continue;
+                self: false,
+                hit: false
+              });
+              continue;
             }
             if (board[this.pos.y + (m.y * step)][this.pos.x + (m.x * step)].team != this.team) {
-              possible.push({ 
-                x: this.pos.x + (m.x * step), 
+              possible.push({
+                x: this.pos.x + (m.x * step),
                 y: this.pos.y + (m.y * step),
-                self:false,
-                hit:true });
-                break;
+                self: false,
+                hit: true
+              });
+              break;
             }
+          }
+        }
+      }
+    }
+    if (this.type == N) {
+      let coords = [
+        { x: 0, y: 0 },
+        { x: -1, y: -2 },
+        { x: 1, y: -2 },
+        { x: -2, y: -1 },
+        { x: -2, y: 1 },
+        { x: 2, y: -1 },
+        { x: 2, y: 1 },
+        { x: -1, y: 2 },
+        { x: 1, y: 2 }]
+      for (let direction of coords) {
+        if (this.pos.y + (direction.y) < 8 && this.pos.x + (direction.x) < 8 &&
+          this.pos.y + (direction.y) >= 0 && this.pos.x + (direction.x) >= 0) {
+          if ((direction.y) == 0 && (direction.x) == 0) {
+            possible.push({
+              x: this.pos.x + (direction.x),
+              y: this.pos.y + (direction.y),
+              self: true,
+              hit: false
+            });
+            continue;
+          }
+          if (board[this.pos.y + (direction.y)][this.pos.x + (direction.x)].team == this.team) {
+            continue;
+          }
+
+          if (board[this.pos.y + (direction.y)][this.pos.x + (direction.x)] == 0) {
+            possible.push({
+              x: this.pos.x + (direction.x),
+              y: this.pos.y + (direction.y),
+              self: false,
+              hit: false
+            });
+            continue;
+          }
+          if (board[this.pos.y + (direction.y)][this.pos.x + (direction.x)].team != this.team) {
+            possible.push({
+              x: this.pos.x + (direction.x),
+              y: this.pos.y + (direction.y),
+              self: false,
+              hit: true
+            });
+            continue;
           }
         }
       }
