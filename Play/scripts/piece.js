@@ -49,9 +49,6 @@ class Piece {
     this.image.style.display = 'block';
   }
 
-
-
-
   showMoves() {
     let possible = [];
     if (this.type != N && this.type != P) {
@@ -62,6 +59,11 @@ class Piece {
           if (this.pos.y + (m.y * step) < 8 && this.pos.x + (m.x * step) < 8 &&
             this.pos.y + (m.y * step) >= 0 && this.pos.x + (m.x * step) >= 0) {
             if ((m.y * step) == 0 && (m.x * step) == 0) {
+
+              if (possible.some(function(el) { return (el.self === true); })) {
+                continue;
+              }
+
               possible.push({
                 x: this.pos.x + (m.x * step),
                 y: this.pos.y + (m.y * step),
@@ -140,6 +142,68 @@ class Piece {
               hit: true
             });
             continue;
+          }
+        }
+      }
+    }
+    if (this.type == P) {
+      let dir = 1;
+      let coords = [
+        { x: 0, y: 0 },
+        { x: 0, y: -1 * dir },
+        { x: 0, y: -2 * dir },
+        { x: -1, y: -1 * dir },
+        { x: 1, y: -1 * dir }
+      ];
+      for (let direction of coords) {
+        if (this.pos.y + (direction.y) < 8 && this.pos.x + (direction.x) < 8 &&
+          this.pos.y + (direction.y) >= 0 && this.pos.x + (direction.x) >= 0) {
+
+          if ((direction.y) == 0 && (direction.x) == 0) {
+            possible.push({
+              x: this.pos.x + (direction.x),
+              y: this.pos.y + (direction.y),
+              self: true,
+              hit: false
+            });
+            continue;
+          }
+
+          if (board[this.pos.y + (direction.y)][this.pos.x + (direction.x)].team != this.team) {
+            if (direction.x != 0 && board[this.pos.y + (direction.y)][this.pos.x + (direction.x)] != 0) {
+              possible.push({
+                x: this.pos.x + (direction.x),
+                y: this.pos.y + (direction.y),
+                self: false,
+                hit: true
+              });
+              continue;
+            }
+
+          }
+
+          if (board[this.pos.y + (direction.y)][this.pos.x + (direction.x)] == 0) {
+            if (direction.x == 0) {
+              if (direction.y == (-2 * dir) && this.moveNr == 0) {
+                if (board[this.pos.y + (-1 * dir)][this.pos.x + (direction.x)] == 0) {
+                  possible.push({
+                    x: this.pos.x + (direction.x),
+                    y: this.pos.y + (direction.y),
+                    self: false,
+                    hit: false
+                  });
+                  continue;
+                }
+              } else if (direction.y == (-1 * dir)) {
+                possible.push({
+                  x: this.pos.x + (direction.x),
+                  y: this.pos.y + (direction.y),
+                  self: false,
+                  hit: false
+                });
+                continue;
+              }
+            }
           }
         }
       }

@@ -143,7 +143,13 @@ function dragPiece(piece) {
     /* stop moving when mouse button is released:*/
     document.onmouseup = null;
     document.onmousemove = null;
+    let prev = {x:piece.pos.x,y:piece.pos.y};
     snapToBoard(piece);
+    if(prev.x != piece.pos.x){
+      piece.moveNr += 1;
+    }else if(prev.y != piece.pos.y){
+      piece.moveNr += 1;
+    }
   }
 
   function snapToBoard(piece) {
@@ -165,20 +171,6 @@ function dragPiece(piece) {
         min = d;
       }
     }
-    if (possible.length == 0) {
-      for (let y = 0; y < 8; y++) {
-        for (let x = 0; x < 8; x++) {
-          let xref = x * PXsize;
-          let yref = y * PXsize;
-          let d = dist(xpos, ypos, xref, yref);
-          if (d < min) {
-            finalX = x;
-            finalY = y;
-            min = d;
-          }
-        }
-      }
-    }
     if (board[finalY][finalX].team != piece.team) {
       board[piece.pos.y][piece.pos.x] = 0;
       if (board[finalY][finalX]) {
@@ -187,7 +179,6 @@ function dragPiece(piece) {
       piece.pos.x = finalX;
       piece.pos.y = finalY;
       board[finalY][finalX] = piece;
-      piece.moveNr +=1;
     }
     drawPossible();
     display_board();
