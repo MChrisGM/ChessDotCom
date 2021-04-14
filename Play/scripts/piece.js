@@ -147,7 +147,12 @@ class Piece {
       }
     }
     if (this.type == P) {
-      let dir = 1;
+      let dir;
+      if(W && this.team=='w'){
+        dir=1;
+      }else{
+        dir=-1;
+      }
       let coords = [
         { x: 0, y: 0 },
         { x: 0, y: -1 * dir },
@@ -179,9 +184,7 @@ class Piece {
               });
               continue;
             }
-
           }
-
           if (board[this.pos.y + (direction.y)][this.pos.x + (direction.x)] == 0) {
             if (direction.x == 0) {
               if (direction.y == (-2 * dir) && this.moveNr == 0) {
