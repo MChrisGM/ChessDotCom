@@ -118,7 +118,6 @@ function dragPiece(piece) {
     pos3 = e.clientX;
     pos4 = e.clientY;
 
-
     possible = piece.showMoves();
     drawPossible(possible);
 
@@ -144,7 +143,6 @@ function dragPiece(piece) {
     /* stop moving when mouse button is released:*/
     document.onmouseup = null;
     document.onmousemove = null;
-    
     snapToBoard(piece);
   }
 
@@ -181,11 +179,6 @@ function dragPiece(piece) {
         }
       }
     }
-
-    if(finalY != piece.pos.y && finalX != piece.pos.x){
-      drawPossible();
-    }
-
     if (board[finalY][finalX].team != piece.team) {
       board[piece.pos.y][piece.pos.x] = 0;
       if (board[finalY][finalX]) {
@@ -194,7 +187,9 @@ function dragPiece(piece) {
       piece.pos.x = finalX;
       piece.pos.y = finalY;
       board[finalY][finalX] = piece;
+      piece.moveNr +=1;
     }
+    drawPossible();
     display_board();
   }
 }
@@ -209,26 +204,35 @@ function dist(x1, y1, x2, y2) {
 
 let dots = [];
 function drawPossible(possible) {
-  if(!possible){possible = [];}
   for (let dot of dots) {
     dot.remove();
   }
+  if(!possible){return;}
   PXsize = document.getElementById('board').clientWidth / 8;
+
   for (let m of possible) {
     let cont = document.createElement('div');
     let a = document.createElement('div');
-    a.style.width = PXsize / 3 + 'px';
-    a.style.height = PXsize / 3 + 'px';
+    a.style.width = PXsize / 2.5 + 'px';
+    a.style.height = PXsize / 2.5 + 'px';
+    a.classList = "circle center";
     cont.style.position = 'absolute';
     cont.style.top = (m.y) * PXsize + 'px';
     cont.style.left = (m.x) * PXsize + 'px';
     cont.style.width = PXsize + 'px';
     cont.style.height = PXsize + 'px';
-    a.classList = "circle center";
-    a.style.zIndex = 1;
+    if(m.self){
+      cont.style.backgroundColor='rgba(255,255,0,0.1)';
+    }
+    if(m.hit){
+      a.style.backgroundColor = 'rgba(0,0,0,0)';
+      a.style.border = '8px solid rgba(0,0,0,0.3)';
+      a.style.width = PXsize / 1.5+ 'px';
+      a.style.height = PXsize / 1.5 + 'px';
+    }
     cont.appendChild(a);
     document.getElementById('board').append(cont);
-    dots.push(a)
+    dots.push(cont)
   }
 }
 

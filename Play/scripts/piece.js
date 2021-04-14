@@ -54,23 +54,45 @@ class Piece {
 
   showMoves() {
     let possible = [];
-    if (this.type != N) {
+    if (this.type != N && this.type != P) {
       for (let mov of move[this.type].direction) {
         let m = colrow(mov);
+
         for (let step of move[this.type].step) {
           if (this.pos.y + (m.y * step) < 8 && this.pos.x + (m.x * step) < 8 &&
             this.pos.y + (m.y * step) >= 0 && this.pos.x + (m.x * step) >= 0) {
-            if (board[this.pos.y + (m.y * step)][this.pos.x + (m.x * step)] == 0
-              || (((m.y * step) == 0 && (m.x * step) == 0) || board[this.pos.y + (m.y * step)][this.pos.x + (m.x * step)].team != this.team)) {
-              possible.push({ x: this.pos.x + (m.x * step), y: this.pos.y + (m.y * step) });
+            if ((m.y * step) == 0 && (m.x * step) == 0) {
+              possible.push({ 
+                x: this.pos.x + (m.x * step), 
+                y: this.pos.y + (m.y * step),
+                self:true,
+                hit:false });
+                continue;
+            }
+            if (board[this.pos.y + (m.y * step)][this.pos.x + (m.x * step)].team == this.team) {
+              break;
+            }
+            
+            if (board[this.pos.y + (m.y * step)][this.pos.x + (m.x * step)] == 0) {
+              possible.push({ 
+                x: this.pos.x + (m.x * step), 
+                y: this.pos.y + (m.y * step),
+                self:false,
+                hit:false });
+                continue;
+            }
+            if (board[this.pos.y + (m.y * step)][this.pos.x + (m.x * step)].team != this.team) {
+              possible.push({ 
+                x: this.pos.x + (m.x * step), 
+                y: this.pos.y + (m.y * step),
+                self:false,
+                hit:true });
+                break;
             }
           }
         }
       }
     }
-
-
-    console.log(possible);
     return possible;
   }
 }
