@@ -9,12 +9,12 @@ let W = true;
 var PXsize;
 
 const move = {
-  k: { direction: [1, 2, 3, 4, 5, 6, 7, 8, 9], step: [1] },
-  q: { direction: [1, 2, 3, 4, 5, 6, 7, 8, 9], step: [1, 2, 3, 4, 5, 6, 7, 8] },
-  b: { direction: [1, 3, 7, 9], step: [1, 2, 3, 4, 5, 6, 7, 8] },
-  n: { direction: [2, 4, 6, 8], step: [4], combinations: [] },
-  r: { direction: [2, 4, 6, 8], step: [1, 2, 3, 4, 5, 6, 7, 8] },
-  p: { direction: [1, 2, 3, 5], step: [1] }
+  'k': { direction: [1, 2, 3, 4, 5, 6, 7, 8, 9], step: [1] },
+  'q': { direction: [1, 2, 3, 4, 5, 6, 7, 8, 9], step: [1, 2, 3, 4, 5, 6, 7, 8] },
+  'b': { direction: [1, 3, 7, 9, 5], step: [1, 2, 3, 4, 5, 6, 7, 8] },
+  'n': { direction: [2, 4, 6, 8, 5], step: [4] },
+  'r': { direction: [2, 4, 6, 8, 5], step: [1, 2, 3, 4, 5, 6, 7, 8] },
+  'p': { direction: [1, 2, 3, 5], step: [1] }
 };
 
 // 1,2,3,
@@ -32,23 +32,23 @@ function colrow(move) {
 
 function reset_board() {
   board = [
-    [R,N,B,Q,K,B,N,R],
-    [P,P,P,P,P,P,P,P],
-    [0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,0],
-    [P,P,P,P,P,P,P,P],
-    [R,N,B,Q,K,B,N,R]
+    [R, N, B, Q, K, B, N, R],
+    [P, P, P, P, P, P, P, P],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [P, P, P, P, P, P, P, P],
+    [R, N, B, Q, K, B, N, R]
   ];
 
-  for(let y=0;y<8;y++){
-    for(let x=0;x<8;x++){
-      if(board[y][x]!=0){
-        if(y<3){
-          board[y][x] = new Piece(board[y][x],x,y,!W);
-        }else{
-          board[y][x] = new Piece(board[y][x],x,y,W);
+  for (let y = 0; y < 8; y++) {
+    for (let x = 0; x < 8; x++) {
+      if (board[y][x] != 0) {
+        if (y < 3) {
+          board[y][x] = new Piece(board[y][x], x, y, !W);
+        } else {
+          board[y][x] = new Piece(board[y][x], x, y, W);
         }
         board[y][x].hide();
       }
@@ -56,11 +56,11 @@ function reset_board() {
   }
 }
 
-function display_board(){
-  PXsize = document.getElementById('board').clientWidth/8;
-  for(let y=0;y<8;y++){
-    for(let x=0;x<8;x++){
-      if(board[y][x]!=0){
+function display_board() {
+  PXsize = document.getElementById('board').clientWidth / 8;
+  for (let y = 0; y < 8; y++) {
+    for (let x = 0; x < 8; x++) {
+      if (board[y][x] != 0) {
         board[y][x].show();
       }
     }
@@ -73,6 +73,6 @@ window.onload = function() {
   display_board();
 }
 
-window.onresize = function(){
+window.onresize = function() {
   display_board();
 }

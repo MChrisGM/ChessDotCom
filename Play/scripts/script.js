@@ -62,11 +62,11 @@ function createResizeableBoard() {
   const game_div = document.querySelector('#gameDiv');
 
   // get min of gameDiv width and height so resizer do not go out of view
-  const gameDiv_width = parseFloat(getComputedStyle(game_div , null).getPropertyValue('width').replace('px', ''));
-  const gameDiv_height = parseFloat(getComputedStyle(game_div , null).getPropertyValue('height').replace('px', ''));
+  const gameDiv_width = parseFloat(getComputedStyle(game_div, null).getPropertyValue('width').replace('px', ''));
+  const gameDiv_height = parseFloat(getComputedStyle(game_div, null).getPropertyValue('height').replace('px', ''));
   const maximum_size = Math.min(gameDiv_width, gameDiv_height);
-  
-  const minimum_size = 0.1*gameDiv_width;
+
+  const minimum_size = 0.1 * gameDiv_width;
 
   let original_size = 0;
   let original_mouse_x = 0;
@@ -86,7 +86,7 @@ function createResizeableBoard() {
     if (new_size > minimum_size && new_size < maximum_size) {
       board.style.width = new_size + 'px';
       board.style.height = new_size + 'px';
-    } 
+    }
     else if (new_size < minimum_size) {
       board.style.width = minimum_size + 'px';
       board.style.height = minimum_size + 'px';
@@ -101,7 +101,7 @@ function createResizeableBoard() {
   // clean up so that mousemove 
   function stopResize(e) {
     window.removeEventListener('mousemove', resize);
-    
+
   }
 }
 
@@ -109,13 +109,19 @@ function dragPiece(piece) {
   let elmnt = piece.container;
   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
   elmnt.onmousedown = dragMouseDown;
-  
+  let possible;
+
   function dragMouseDown(e) {
     e = e || window.event;
     e.preventDefault();
     // get the mouse cursor position at startup:
     pos3 = e.clientX;
     pos4 = e.clientY;
+
+
+    possible = piece.showMoves();
+    drawPossible(possible);
+
     document.onmouseup = closeDragElement;
     // call a function whenever the cursor moves:
     document.onmousemove = elementDrag;
@@ -138,45 +144,94 @@ function dragPiece(piece) {
     /* stop moving when mouse button is released:*/
     document.onmouseup = null;
     document.onmousemove = null;
-
+    
     snapToBoard(piece);
   }
-}
-function dist(x1,y1,x2,y2){
-  let a = x1 - x2;
-  let b = y1 - y2;
-  return Math.sqrt( a*a + b*b ); 
-}
 
-function snapToBoard(piece){
-  let min = 100000;
-  let xpos = parseFloat(piece.container.style.left.replace('px',''));
-  let ypos = parseFloat(piece.container.style.top.replace('px',''));
-  let finalX;
-  let finalY;
-  for(let y=0;y<8;y++){
-    for(let x=0;x<8;x++){
-      let xref = x*PXsize;
-      let yref = y*PXsize;
-      let d = dist(xpos,ypos,xref,yref);
-      if(d<min){
+  function snapToBoard(piece) {
+    let min = 100000;
+    let xpos = parseFloat(piece.container.style.left.replace('px', ''));
+    let ypos = parseFloat(piece.container.style.top.replace('px', ''));
+    let finalX;
+    let finalY;
+
+    for (let position of possible) {
+      let x = position.x;
+      let y = position.y;
+      let xref = x * PXsize;
+      let yref = y * PXsize;
+      let d = dist(xpos, ypos, xref, yref);
+      if (d < min) {
         finalX = x;
         finalY = y;
         min = d;
       }
     }
-  }
-  if(board[finalY][finalX].team != piece.team){
-    board[piece.pos.y][piece.pos.x] = 0;
-    if(board[finalY][finalX]){
-      board[finalY][finalX].remove();
+    if (possible.length == 0) {
+      for (let y = 0; y < 8; y++) {
+        for (let x = 0; x < 8; x++) {
+          let xref = x * PXsize;
+          let yref = y * PXsize;
+          let d = dist(xpos, ypos, xref, yref);
+          if (d < min) {
+            finalX = x;
+            finalY = y;
+            min = d;
+          }
+        }
+      }
     }
-    piece.pos.x = finalX;
-    piece.pos.y = finalY;
-    board[finalY][finalX] = piece;
+
+    if(finalY != piece.pos.y && finalX != piece.pos.x){
+      drawPossible();
+    }
+
+    if (board[finalY][finalX].team != piece.team) {
+      board[piece.pos.y][piece.pos.x] = 0;
+      if (board[finalY][finalX]) {
+        board[finalY][finalX].remove();
+      }
+      piece.pos.x = finalX;
+      piece.pos.y = finalY;
+      board[finalY][finalX] = piece;
+    }
+    display_board();
   }
-  display_board();
 }
+
+
+function dist(x1, y1, x2, y2) {
+  let a = x1 - x2;
+  let b = y1 - y2;
+  return Math.sqrt(a * a + b * b);
+}
+
+
+let dots = [];
+function drawPossible(possible) {
+  if(!possible){possible = [];}
+  for (let dot of dots) {
+    dot.remove();
+  }
+  PXsize = document.getElementById('board').clientWidth / 8;
+  for (let m of possible) {
+    let cont = document.createElement('div');
+    let a = document.createElement('div');
+    a.style.width = PXsize / 3 + 'px';
+    a.style.height = PXsize / 3 + 'px';
+    cont.style.position = 'absolute';
+    cont.style.top = (m.y) * PXsize + 'px';
+    cont.style.left = (m.x) * PXsize + 'px';
+    cont.style.width = PXsize + 'px';
+    cont.style.height = PXsize + 'px';
+    a.classList = "circle center";
+    a.style.zIndex = 1;
+    cont.appendChild(a);
+    document.getElementById('board').append(cont);
+    dots.push(a)
+  }
+}
+
 
 
 
